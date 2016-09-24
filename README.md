@@ -44,4 +44,11 @@ root        40  0.0  0.0  11128   984 ?        S+   19:06   0:00 grep flume
 
 ```
 
+ISSUE
+----------
+
+docker mode is finding the fking log4j file so, I'm running manually in two different ssh sessions once I run the container.
+Like http://prayagupd-dreamspace.blogspot.com/2016/09/flume-source-and-sink-example.html
+
+
 

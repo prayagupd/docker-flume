@@ -1,5 +1,5 @@
-FROM debian:jessie
-MAINTAINER Alex Wilson a.wilson@alumni.warwick.ac.uk
+FROM ubuntu:latest
+MAINTAINER Andrew Odewahn "odewahn@oreilly.com"
 
 RUN apt-get update && apt-get install -q -y --no-install-recommends wget
 
@@ -19,10 +19,11 @@ ADD supply_source.log /var/log/supply_source.log
 ADD publish-events.sh /opt/flume/bin/publish-events
 
 ENV JAVA_HOME /opt/java
+ENV FLUME_CONF_DIR=/opt/flume/conf/
 ENV FLUME_AGENT_NAME=suppy_chain
 ENV FLUME_CONF_FILE=/opt/flume/conf/flume.conf
 
 ENV PATH /opt/flume/bin:/opt/java/bin:$PATH
 
-CMD [ "start-flume" ]
-CMD [ "publish-events" ]
+#CMD [ "start-flume" ]
+#CMD [ "publish-events" ]
