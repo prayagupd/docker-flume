@@ -4,6 +4,12 @@
 
 ## Build Instructions
 
+    //run elasticsearch first
+
+    git clone https://github.com/prayagupd/docker-elasticsearch/tree/elasticsearch-with-java
+    docker build -t elasticsearch .
+    docker run -it/(or -d) --net=host elasticsearch
+
     docker build -t flume .
 
 ## Available environment variables
@@ -15,9 +21,9 @@
 And to run
 
 ```
-docker run flume
+docker run -it --net=host flume
 
-Starting flume agent : suppy_chain
+Starting flume agent : supply_chain
 Info: Including Hive libraries found via () for Hive access
 + exec /opt/java/bin/java -Xmx20m -Dflume.root.logger=INFO,console -cp '/opt/flume/conf:/opt/flume/lib/*:/lib/*' -Djava.library.path= org.apache.flume.node.Application -f /opt/flume/conf/flume.conf -n suppy_chain
 2016-09-24 18:54:31,900 (lifecycleSupervisor-1-0) [INFO - org.apache.flume.node.PollingPropertiesFileConfigurationProvider.start(PollingPropertiesFileConfigurationProvider.java:61)] Configuration provider starting
@@ -44,11 +50,51 @@ root        40  0.0  0.0  11128   984 ?        S+   19:06   0:00 grep flume
 
 ```
 
+:)
+----
+
+Also check the elasticsearch clusters
+
+```
+curl 'localhost:9200/_cat/indices?v'
+health status index                   pri rep docs.count docs.deleted store.size pri.store.size 
+yellow open   applications-2016-09-29   5   1          2            0      5.8kb          5.8kb 
+
+
+$ curl -XGET localhost:9200/applications-2016-09-29/_search?pretty=true
+{
+  "took" : 31,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 5,
+    "successful" : 5,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 2,
+    "max_score" : 1.0,
+    "hits" : [ {
+      "_index" : "applications-2016-09-29",
+      "_type" : "SupplyChain",
+      "_id" : "AVdzRFEdnGiTbH1yJdWo",
+      "_score" : 1.0,
+      "_source":{"body":"org.elasticsearch.common.xcontent.XContentBuilder@6497ccdb"}
+    }, {
+      "_index" : "applications-2016-09-29",
+      "_type" : "SupplyChain",
+      "_id" : "AVdzRFEcnGiTbH1yJdWn",
+      "_score" : 1.0,
+      "_source":{"body":"org.elasticsearch.common.xcontent.XContentBuilder@420b3b14"}
+    } ]
+  }
+}
+
+```
+
+
 ISSUE
 ----------
 
-docker mode is finding the fking log4j file so, I'm running manually in two different ssh sessions once I run the container.
+docker mode is not finding the fking log4j file so, I'm running manually in two different ssh sessions once I run the container.
 Like http://prayagupd-dreamspace.blogspot.com/2016/09/flume-source-and-sink-example.html
-
-
 
