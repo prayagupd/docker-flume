@@ -1,1 +1,1 @@
-docker run flume
+docker run -it --net=host flume
