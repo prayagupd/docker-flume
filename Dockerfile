@@ -15,10 +15,10 @@ ENV JAVA_HOME /opt/java
 ENV PATH $JAVA_HOME/bin:$PATH
 
 RUN mkdir /opt/flume
-RUN wget -qO- http://archive.apache.org/dist/flume/1.5.0/apache-flume-1.5.0-bin.tar.gz \
+RUN wget -qO- http://archive.apache.org/dist/flume/1.6.0/apache-flume-1.6.0-bin.tar.gz \
   | tar zxvf - -C /opt/flume --strip 1
 
-ENV ES_PKG_NAME elasticsearch-1.5.0
+ENV ES_PKG_NAME elasticsearch-1.7.3
 
 RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz && \
   tar xvzf $ES_PKG_NAME.tar.gz && \
@@ -27,7 +27,7 @@ RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_
 
 ADD start-flume.sh /opt/flume/bin/start-flume
 ADD flume.conf /opt/flume/conf/flume.conf
-ADD log-enrichment-jar-with-dependencies.jar /opt/flume/lib/
+ADD flume-ext-deps/*.jar /opt/flume/lib/
 
 ADD supply_source.log /var/log/supply_source.log
 ADD publish-events.sh /opt/flume/bin/publish-events
